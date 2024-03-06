@@ -28,12 +28,13 @@ const images = [
     },
 ];
 
+// campi di output dove stampare il template literal
 const outputCarusel = document.getElementById("output");
 const outputThumb = document.getElementById("thumb_output");
+const caruselWrapper = document.querySelector(".my-carousel-container")
 
 
-
-
+// stampo dinamicamente in pagina
 images.forEach((image)=>{
     outputCarusel.innerHTML +=`
     <div class="my-carousel-item">
@@ -51,33 +52,67 @@ images.forEach((image)=>{
     `
 })
 
-
+// tutte le immagini e tutte le thumbnails
 const imagesElements = document.querySelectorAll(".my-carousel-item")
 const thumbElements = document.querySelectorAll(".my-thumbnail")
-console.log(imagesElements, thumbElements);
+// contatore
 let counterItem = 0
+// bottoni
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
+// aggiungo la classe actrive in modo che quando carico la pagina sia visibile la prima immagine e la thumbnail corrispettiva sia accesa
 imagesElements[counterItem].classList.add("active")
 thumbElements[counterItem].classList.add("active")
 
+// eventlisteners
 prevBtn.addEventListener("click", showPrevious)
 
 nextBtn.addEventListener("click", showNext)
 
-console.log(nextBtn);
+
+//  CLICCANDO SULLE THUMBNAIL //
+thumbElements.forEach((thumbnail, index) => {
+    thumbnail.addEventListener("click", () => {
+        // Rimuovo la classe "active" da tutte le immagini e thumbnail
+        imagesElements.forEach(item => item.classList.remove("active"));
+        thumbElements.forEach(item => item.classList.remove("active"));
+
+        // Mostra l'immagine e la thumbnail corrispondenti all'indice
+        imagesElements[index].classList.add("active");
+        thumbElements[index].classList.add("active");
+
+        // Aggiorna il counterItem all'indice corrente
+        counterItem = index;
+    });
+});
+
+// CAROSELLO AUTOMATICO //
+let caruselInterval = ""
+
+// Avvia l'autoplay del carosello
+startCarousel();
 
 
-
-// questi sono gli elementi dell' oggetto
-// for(image of images){
-//     console.log(image.url);
-//     console.log(image.title);
-//     console.log(image.description);
-// }
 
 // functions //
+
+// Funzione per avviare l'autoplay del carosello
+function startCarousel() {
+    carouselInterval = setInterval(showNext, 3000);
+}
+
+ // Funzione per fermare l'autoplay del carosello
+function stopCarousel() {
+    clearInterval(carouselInterval);
+}
+// Aggiungo gli event listener per interrompere/riavviare l'autoplay quando il mouse entra/esce dal carosello
+caruselWrapper.addEventListener("mouseenter", stopCarousel);
+
+caruselWrapper.addEventListener("mouseleave", startCarousel);
+
+
+
 
 function showNext(){
     imagesElements[counterItem].classList.remove("active");
@@ -107,4 +142,3 @@ function showNext(){
     thumbElements[counterItem].classList.add("active");
  }
 
- 
