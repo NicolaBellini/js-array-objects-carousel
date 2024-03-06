@@ -124,7 +124,7 @@ console.log(isStop);
 
 // CAROSELLO AUTOMATICO //
 let caruselInterval = ""
-
+let invertInterval =""
 // Avvia l'autoplay del carosello
 // startCarousel();
 
@@ -143,6 +143,15 @@ invert1.addEventListener("click",function(){
     invert()
     invert2.classList.remove("hide")
     invert1.classList.add("hide")
+
+})
+invert2.addEventListener("click",function(){
+    reverseInvert()
+    invert2.classList.add("hide")
+    invert1.classList.remove("hide")
+    startCarousel()
+    stopBtn.classList.remove("hide")
+    startBtn.classList.add("hide")
 })
 
 // functions //
@@ -157,9 +166,16 @@ function stopCarousel() {
     clearInterval(carouselInterval);
 }
 
+
+// inverte l andamento del carosello
 function invert() {
-    carouselInterval = setInterval(showPrevious, 1000);
+    invertInterval = setInterval(showPrevious, 1000);
 }
+
+function reverseInvert(){
+    clearInterval(invertInterval)
+}
+
 // Aggiungo gli event listener per interrompere/riavviare l'autoplay quando il mouse entra/esce dal carosello
 
 
