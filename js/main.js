@@ -62,6 +62,8 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const stopBtn = document.getElementById("stop-autoplay");
 const startBtn = document.getElementById("start-autoplay");
+const invert1 = document.getElementById("invert1");
+const invert2 = document.getElementById("invert2");
 
 // aggiungo la classe actrive in modo che quando carico la pagina sia visibile la prima immagine e la thumbnail corrispettiva sia accesa
 imagesElements[counterItem].classList.add("active")
@@ -71,6 +73,7 @@ thumbElements[counterItem].classList.add("active")
 prevBtn.addEventListener("click", showPrevious)
 
 nextBtn.addEventListener("click", showNext)
+
 
 
 //  CLICCANDO SULLE THUMBNAIL //
@@ -93,7 +96,6 @@ stopBtn.addEventListener("click",function(){
     stopCarousel()
     stopBtn.classList.add("hide")
     startBtn.classList.remove("hide")
-    console.log(isStop,stopBtn);
 })
 
 // ilbottone start quando cliccato assume la classe hide e la toglie al bottone stop
@@ -112,14 +114,36 @@ if (stopBtn.classList.contains(".hide")) {
 
 console.log(isStop);
 
+
+// startBtn.addEventListener("click",function(){
+//     startCarousel()
+//     startBtn.classList.add("hide")
+//     stopBtn.classList.remove("hide")
+// })
+
+
 // CAROSELLO AUTOMATICO //
 let caruselInterval = ""
 
 // Avvia l'autoplay del carosello
-startCarousel();
+// startCarousel();
 
 // gli dò di default la classe hide poichè voglio si veda solo lo stop autoplay
-startBtn.classList.add("hide")
+stopBtn.classList.add("hide")
+invert2.classList.add("hide")
+
+caruselWrapper.addEventListener("mouseenter", stopCarousel);
+
+if(!isStop){
+    caruselWrapper.addEventListener("mouseleave", startCarousel);
+}
+// invert1.classList.remove("hide")
+
+invert1.addEventListener("click",function(){
+    invert()
+    invert2.classList.remove("hide")
+    invert1.classList.add("hide")
+})
 
 // functions //
 
@@ -132,12 +156,11 @@ function startCarousel() {
 function stopCarousel() {
     clearInterval(carouselInterval);
 }
-// Aggiungo gli event listener per interrompere/riavviare l'autoplay quando il mouse entra/esce dal carosello
-caruselWrapper.addEventListener("mouseenter", stopCarousel);
 
-if(!isStop){
-    caruselWrapper.addEventListener("mouseleave", startCarousel);
+function invert() {
+    carouselInterval = setInterval(showPrevious, 1000);
 }
+// Aggiungo gli event listener per interrompere/riavviare l'autoplay quando il mouse entra/esce dal carosello
 
 
 
