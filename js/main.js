@@ -28,17 +28,15 @@ const images = [
     },
 ];
 
-const outputCarusel = document.getElementById("output")
-const outputThumb = document.getElementById("thumb_output")
-const prevBtn = document.querySelector(".my-previous")
-const nextBtn = document.querySelector(".my-next")
+const outputCarusel = document.getElementById("output");
+const outputThumb = document.getElementById("thumb_output");
 
 
 
 
 images.forEach((image)=>{
     outputCarusel.innerHTML +=`
-    <div class="my-carousel-item active">
+    <div class="my-carousel-item">
         <img class="img-fluid" src=${image.url} alt="${images.title} picture">
         <div class="item-description px-3">
             <h2>${image.title}</h2>
@@ -58,43 +56,55 @@ const imagesElements = document.querySelectorAll(".my-carousel-item")
 const thumbElements = document.querySelectorAll(".my-thumbnail")
 console.log(imagesElements, thumbElements);
 let counterItem = 0
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-nextBtn.addEventListener("click", showNext)
+imagesElements[counterItem].classList.add("active")
+thumbElements[counterItem].classList.add("active")
 
 prevBtn.addEventListener("click", showPrevious)
 
-console.log(counterItem);
+nextBtn.addEventListener("click", showNext)
+
+console.log(nextBtn);
+
+
 
 // questi sono gli elementi dell' oggetto
-for(image of images){
-    console.log(image.url);
-    console.log(image.title);
-    console.log(image.description);
-}
+// for(image of images){
+//     console.log(image.url);
+//     console.log(image.title);
+//     console.log(image.description);
+// }
 
 // functions //
 
 function showNext(){
-    imagesElements[counterItem].classList.add("hide");
+    imagesElements[counterItem].classList.remove("active");
+    
     thumbElements[counterItem].classList.remove("active");   
     counterItem++;
     // se il contatore arriva alla fine dell' array il ontatore diventa 0
     if( counterItem === images.length){
        counterItem = 0
     }
-    imagesElements[counterItem].classList.remove("hide");
+    console.log(thumbElements[counterItem],  imagesElements[counterItem],  imagesElements[counterItem-1]);
+    console.log(counterItem);
+    imagesElements[counterItem].classList.add("active");
     thumbElements[counterItem].classList.add("active");
  }
 
  function showPrevious(){
-    imagesElements[counterItem].classList.add("hide");
+    imagesElements[counterItem].classList.remove("active");
     thumbElements[counterItem].classList.remove("active");   
     counterItem--;
     // se il contatore è inferiore a 0 prendo  l' ultimo elemento dell' array
     if( counterItem === -1){
        counterItem = images.length -1
     }
-    imagesElements[counterItem].classList.remove("hide");
+    console.log(counterItem);
+    imagesElements[counterItem].classList.add("active");
     thumbElements[counterItem].classList.add("active");
  }
+
  
