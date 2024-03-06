@@ -60,6 +60,8 @@ let counterItem = 0
 // bottoni
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const stopBtn = document.getElementById("stop-autoplay");
+const startBtn = document.getElementById("start-autoplay");
 
 // aggiungo la classe actrive in modo che quando carico la pagina sia visibile la prima immagine e la thumbnail corrispettiva sia accesa
 imagesElements[counterItem].classList.add("active")
@@ -86,6 +88,29 @@ thumbElements.forEach((thumbnail, index) => {
         counterItem = index;
     });
 });
+// ilbottone stop quando cliccato assume la classe hide e la toglie al bottone start
+stopBtn.addEventListener("click",function(){
+    stopCarousel()
+    stopBtn.classList.add("hide")
+    startBtn.classList.remove("hide")
+    console.log(isStop,stopBtn);
+})
+
+// ilbottone start quando cliccato assume la classe hide e la toglie al bottone stop
+startBtn.addEventListener("click",function(){
+    startCarousel()
+    startBtn.classList.add("hide")
+    stopBtn.classList.remove("hide")
+})
+
+// flag per controllare se il bottone stop è premuto
+let isStop = true
+
+if (stopBtn.classList.contains(".hide")) {
+    isStop = false
+}
+
+console.log(isStop);
 
 // CAROSELLO AUTOMATICO //
 let caruselInterval = ""
@@ -93,13 +118,14 @@ let caruselInterval = ""
 // Avvia l'autoplay del carosello
 startCarousel();
 
-
+// gli dò di default la classe hide poichè voglio si veda solo lo stop autoplay
+startBtn.classList.add("hide")
 
 // functions //
 
 // Funzione per avviare l'autoplay del carosello
 function startCarousel() {
-    carouselInterval = setInterval(showNext, 3000);
+    carouselInterval = setInterval(showNext, 1000);
 }
 
  // Funzione per fermare l'autoplay del carosello
@@ -109,7 +135,9 @@ function stopCarousel() {
 // Aggiungo gli event listener per interrompere/riavviare l'autoplay quando il mouse entra/esce dal carosello
 caruselWrapper.addEventListener("mouseenter", stopCarousel);
 
-caruselWrapper.addEventListener("mouseleave", startCarousel);
+if(!isStop){
+    caruselWrapper.addEventListener("mouseleave", startCarousel);
+}
 
 
 
